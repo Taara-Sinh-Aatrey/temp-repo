@@ -1,5 +1,5 @@
-const axios = require('axios');
-const logger = require('../utils/logger');
+import { post } from 'axios';
+import { error as _error } from '../utils/logger';
 
 /**
  * Process a natural language query using external microservice
@@ -17,7 +17,7 @@ const processQuery = async (merchantId, query) => {
     };
     
     // Forward query to microservice
-    const response = await axios.post(
+    const response = await post(
       process.env.QUERY_SERVICE_URL,
       queryData,
       {
@@ -31,7 +31,7 @@ const processQuery = async (merchantId, query) => {
     
     return response.data;
   } catch (error) {
-    logger.error('Error in processQuery service:', error);
+    _error('Error in processQuery service:', error);
     
     // Handle axios errors
     if (error.response) {
@@ -48,6 +48,6 @@ const processQuery = async (merchantId, query) => {
   }
 };
 
-module.exports = {
+export default {
   processQuery
 };

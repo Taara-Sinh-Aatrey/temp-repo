@@ -1,6 +1,7 @@
-const Feedback = require('../models/Feedback');
-const { formatError } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import { getTotalFeedbackCount, getCustomerRevisits as _getCustomerRevisits, getSentimentAnalysis as _getSentimentAnalysis, getTopTrends as _getTopTrends, getBottomTrends as _getBottomTrends } from '../models/Feedback';
+import * as helpers from '../utils/helpers';
+const { formatError } = helpers;
+import logger from '../utils/logger';
 
 /**
  * Get total feedback count with time series data
@@ -16,7 +17,7 @@ const getTotalFeedbacks = async (req, res) => {
     const { startDate, endDate } = req.dateRange;
     
     // Get feedback data
-    const feedbackData = await Feedback.getTotalFeedbackCount(
+    const feedbackData = await getTotalFeedbackCount(
       merchantId,
       {
         startDate,
@@ -50,7 +51,7 @@ const getCustomerRevisits = async (req, res) => {
     const visitTypesArray = visitTypes ? visitTypes.split(',') : ['oneTime', 'twoTime', 'multiple'];
     
     // Get revisit data
-    const revisitData = await Feedback.getCustomerRevisits(
+    const revisitData = await _getCustomerRevisits(
       merchantId,
       {
         startDate,
@@ -98,7 +99,7 @@ const getSentimentAnalysis = async (req, res) => {
     const { startDate, endDate } = req.dateRange;
     
     // Get sentiment data
-    const sentimentData = await Feedback.getSentimentAnalysis(
+    const sentimentData = await _getSentimentAnalysis(
       merchantId,
       {
         startDate,
@@ -158,7 +159,7 @@ const getTopTrends = async (req, res) => {
     const { startDate, endDate } = req.dateRange;
     
     // Get top trends
-    const trends = await Feedback.getTopTrends(
+    const trends = await _getTopTrends(
       merchantId,
       {
         startDate,
@@ -186,7 +187,7 @@ const getBottomTrends = async (req, res) => {
     const { startDate, endDate } = req.dateRange;
     
     // Get bottom trends
-    const trends = await Feedback.getBottomTrends(
+    const trends = await _getBottomTrends(
       merchantId,
       {
         startDate,
@@ -222,11 +223,11 @@ const getDashboardOverview = async (req, res) => {
       topTrends,
       bottomTrends
     ] = await Promise.all([
-      Feedback.getTotalFeedbackCount(merchantId, { startDate, endDate, qrLabel }),
-      Feedback.getCustomerRevisits(merchantId, { startDate, endDate }),
-      Feedback.getSentimentAnalysis(merchantId, { startDate, endDate, qrLabel }),
-      Feedback.getTopTrends(merchantId, { startDate, endDate }),
-      Feedback.getBottomTrends(merchantId, { startDate, endDate })
+      getTotalFeedbackCount(merchantId, { startDate, endDate, qrLabel }),
+      _getCustomerRevisits(merchantId, { startDate, endDate }),
+      _getSentimentAnalysis(merchantId, { startDate, endDate, qrLabel }),
+      _getTopTrends(merchantId, { startDate, endDate }),
+      _getBottomTrends(merchantId, { startDate, endDate })
     ]);
     
     // Return combined dashboard data
@@ -243,7 +244,7 @@ const getDashboardOverview = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getTotalFeedbacks,
   getCustomerRevisits,
   getSentimentAnalysis,

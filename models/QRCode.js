@@ -1,5 +1,5 @@
-const db = require('./db');
-const { v4: uuidv4 } = require('uuid');
+import db, { fn } from './db';
+import { v4 as uuidv4 } from 'uuid';
 
 class QRCode {
   /**
@@ -58,14 +58,14 @@ class QRCode {
    * @param {string} merchantId - The merchant ID (for security)
    * @returns {Promise<boolean>} True if deleted, false otherwise
    */
-  static async delete(id, merchantId) {
+  static async deleteQrCode(id, merchantId) {
     const result = await db('QRCodes')
       .where({ 
         id,
         merchantId 
       })
       .update({
-        deletedAt: db.fn.now()
+        deletedAt: fn.now()
       });
     
     return result > 0;
@@ -88,4 +88,4 @@ class QRCode {
   }
 }
 
-module.exports = QRCode;
+export default QRCode;

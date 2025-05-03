@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import { sign } from 'jsonwebtoken';
 
 /**
  * Generate JWT token for a merchant
@@ -12,7 +12,7 @@ const generateToken = (merchant) => {
     businessName: merchant.businessName
   };
 
-  return jwt.sign(
+  return sign(
     payload,
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
@@ -95,7 +95,7 @@ const decodeData = (str) => {
   }
 };
 
-module.exports = {
+export default {
   generateToken,
   formatError,
   parseDateRange,

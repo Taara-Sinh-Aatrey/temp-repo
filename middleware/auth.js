@@ -1,6 +1,6 @@
-const jwt = require('jsonwebtoken');
-const Merchant = require('../models/Merchant');
-const logger = require('../utils/logger');
+import { verify } from 'jsonwebtoken';
+import Merchant from '../models/Merchant';
+import logger from '../utils/logger';
 
 /**
  * Middleware to authenticate JWT token
@@ -22,7 +22,7 @@ const authenticateJWT = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verify(token, process.env.JWT_SECRET);
     req.merchant = decoded;
     next();
   } catch (error) {
@@ -57,7 +57,7 @@ const verifyMerchant = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export default {
   authenticateJWT,
   verifyMerchant
 };

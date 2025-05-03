@@ -1,11 +1,11 @@
-const express = require('express');
-const { body } = require('express-validator');
-const passport = require('passport');
-const { signup, googleLogin, getProfile, updateProfile } = require('../controllers/authController');
-const { validateRequest } = require('../middleware/validation');
-const { authenticateJWT, verifyMerchant } = require('../middleware/auth');
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { authenticate } from 'passport';
+import { signup, googleLogin, getProfile, updateProfile } from '../controllers/authController';
+import { validateRequest } from '../middleware/validation';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth';
 
-const router = express.Router();
+const router = Router();
 
 /**
  * @route POST /api/auth/signup
@@ -30,7 +30,7 @@ router.post('/signup', [
  * @desc Initiate Google OAuth flow for merchants
  * @access Public
  */
-router.get('/google', passport.authenticate('google-merchant', {
+router.get('/google', authenticate('google-merchant', {
   scope: ['profile', 'email']
 }));
 
@@ -40,7 +40,7 @@ router.get('/google', passport.authenticate('google-merchant', {
  * @access Public
  */
 router.get('/google/callback', 
-  passport.authenticate('google-merchant', { 
+  authenticate('google-merchant', { 
     session: false,
     failureRedirect: '/login?error=authentication_failed'
   }),
@@ -73,4 +73,4 @@ router.put('/profile', [
   validateRequest
 ], updateProfile);
 
-module.exports = router;
+export default router;

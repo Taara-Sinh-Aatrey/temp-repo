@@ -1,6 +1,6 @@
-const { s3, bucketName } = require('../config/s3');
-const logger = require('../utils/logger');
-const { v4: uuidv4 } = require('uuid');
+import { s3, bucketName } from '../config/s3';
+import { info, error as _error } from '../utils/logger';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * Upload a file to S3
@@ -21,11 +21,11 @@ const uploadFile = async (fileBuffer, contentType, folder = 'images') => {
     };
     
     await s3.upload(params).promise();
-    logger.info(`File uploaded successfully to S3: ${objectId}`);
+    info(`File uploaded successfully to S3: ${objectId}`);
     
     return objectId;
   } catch (error) {
-    logger.error('Error uploading file to S3:', error);
+    _error('Error uploading file to S3:', error);
     throw new Error('Failed to upload file to S3');
   }
 };
@@ -52,11 +52,11 @@ const deleteFile = async (objectId) => {
     };
     
     await s3.deleteObject(params).promise();
-    logger.info(`File deleted successfully from S3: ${objectId}`);
+    info(`File deleted successfully from S3: ${objectId}`);
     
     return true;
   } catch (error) {
-    logger.error('Error deleting file from S3:', error);
+    _error('Error deleting file from S3:', error);
     return false;
   }
 };
@@ -77,12 +77,12 @@ const uploadMultipleFiles = async (files, contentTypes, folder = 'images') => {
     const objectIds = await Promise.all(uploadPromises);
     return objectIds;
   } catch (error) {
-    logger.error('Error uploading multiple files to S3:', error);
+    _error('Error uploading multiple files to S3:', error);
     throw new Error('Failed to upload multiple files to S3');
   }
 };
 
-module.exports = {
+export default {
   uploadFile,
   getFileUrl,
   deleteFile,

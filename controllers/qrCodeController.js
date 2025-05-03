@@ -1,7 +1,8 @@
-const QRCode = require('../models/QRCode');
-const qrcode = require('qrcode');
-const { formatError, encodeData } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import QRCode from '../models/QRCode';
+import { toDataURL } from 'qrcode';
+import * as helpers from '../utils/helpers';
+const { formatError, encodeData } = helpers;
+import logger from '../utils/logger';
 
 /**
  * Generate a QR code for a merchant
@@ -27,7 +28,7 @@ const generateQRCode = async (req, res) => {
     const feedbackUrl = `${process.env.FRONTEND_URL || 'https://example.com'}/feedback?data=${encodedData}`;
 
     // Generate QR code as data URL
-    const qrCodeImage = await qrcode.toDataURL(feedbackUrl, {
+    const qrCodeImage = await toDataURL(feedbackUrl, {
       errorCorrectionLevel: 'H',
       margin: 1,
       scale: 8,
@@ -138,7 +139,7 @@ const deleteQRCode = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   generateQRCode,
   getQRCodes,
   getQRCodeById,

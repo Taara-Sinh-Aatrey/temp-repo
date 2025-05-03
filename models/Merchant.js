@@ -1,5 +1,5 @@
-const db = require('./db');
-const { v4: uuidv4 } = require('uuid');
+import db, { fn } from './db';
+import { v4 as uuidv4 } from 'uuid';
 
 class Merchant {
   /**
@@ -77,7 +77,7 @@ class Merchant {
         location_lat: merchantData.locationLat,
         location_lng: merchantData.locationLng,
         google_place_id: merchantData.googlePlaceId,
-        updated_at: db.fn.now()
+        updated_at: fn.now()
       })
       .returning('*');
     
@@ -158,4 +158,4 @@ class Merchant {
   }
 }
 
-module.exports = Merchant;
+export default Merchant;

@@ -1,10 +1,10 @@
-const express = require('express');
-const { body, param } = require('express-validator');
-const { generateQRCode, getQRCodes, getQRCodeById, deleteQRCode } = require('../controllers/qrCodeController');
-const { validateRequest } = require('../middleware/validation');
-const { authenticateJWT, verifyMerchant } = require('../middleware/auth');
+import { Router } from 'express';
+import { body, param } from 'express-validator';
+import { generateQRCode, getQRCodes, getQRCodeById, deleteQRCode } from '../controllers/qrCodeController';
+import { validateRequest } from '../middleware/validation';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth';
 
-const router = express.Router();
+const router = Router();
 
 // Apply authentication middleware to all routes
 router.use(authenticateJWT);
@@ -47,4 +47,4 @@ router.delete('/:id', [
   validateRequest
 ], deleteQRCode);
 
-module.exports = router;
+export default router;

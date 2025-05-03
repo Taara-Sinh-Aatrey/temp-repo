@@ -1,5 +1,5 @@
-const { validationResult } = require('express-validator');
-const logger = require('../utils/logger');
+import { validationResult } from 'express-validator';
+import logger from '../utils/logger';
 
 /**
  * Middleware to validate request data
@@ -80,7 +80,7 @@ const parseDateRange = (req, res, next) => {
   next();
 };
 
-module.exports = {
+export default {
   validateRequest,
   errorHandler,
   parseDateRange

@@ -1,6 +1,7 @@
-const axios = require('axios');
-const { formatError } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import { post } from 'axios';
+import * as helpers from '../utils/helpers';
+const { formatError } = helpers;
+import logger from '../utils/logger';
 
 /**
  * Forward query to external microservice
@@ -24,7 +25,7 @@ const processQuery = async (req, res) => {
     };
     
     // Forward query to microservice
-    const response = await axios.post(
+    const response = await post(
       process.env.QUERY_SERVICE_URL,
       queryData,
       {
@@ -62,6 +63,6 @@ const processQuery = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   processQuery
 };

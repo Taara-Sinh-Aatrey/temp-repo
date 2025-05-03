@@ -1,5 +1,5 @@
-const Feedback = require('../models/Feedback');
-const logger = require('../utils/logger');
+import { getTotalFeedbackCount, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends } from '../models/Feedback';
+import { error as _error } from '../utils/logger';
 
 /**
  * Get total feedback data for dashboard
@@ -9,9 +9,9 @@ const logger = require('../utils/logger');
  */
 const getTotalFeedbackData = async (merchantId, filters) => {
   try {
-    return await Feedback.getTotalFeedbackCount(merchantId, filters);
+    return await getTotalFeedbackCount(merchantId, filters);
   } catch (error) {
-    logger.error('Error in getTotalFeedbackData service:', error);
+    _error('Error in getTotalFeedbackData service:', error);
     throw error;
   }
 };
@@ -24,9 +24,9 @@ const getTotalFeedbackData = async (merchantId, filters) => {
  */
 const getCustomerRevisitData = async (merchantId, filters) => {
   try {
-    return await Feedback.getCustomerRevisits(merchantId, filters);
+    return await getCustomerRevisits(merchantId, filters);
   } catch (error) {
-    logger.error('Error in getCustomerRevisitData service:', error);
+    _error('Error in getCustomerRevisitData service:', error);
     throw error;
   }
 };
@@ -39,9 +39,9 @@ const getCustomerRevisitData = async (merchantId, filters) => {
  */
 const getSentimentData = async (merchantId, filters) => {
   try {
-    return await Feedback.getSentimentAnalysis(merchantId, filters);
+    return await getSentimentAnalysis(merchantId, filters);
   } catch (error) {
-    logger.error('Error in getSentimentData service:', error);
+    _error('Error in getSentimentData service:', error);
     throw error;
   }
 };
@@ -54,9 +54,9 @@ const getSentimentData = async (merchantId, filters) => {
  */
 const getTopTrendsData = async (merchantId, filters) => {
   try {
-    return await Feedback.getTopTrends(merchantId, filters);
+    return await getTopTrends(merchantId, filters);
   } catch (error) {
-    logger.error('Error in getTopTrendsData service:', error);
+    _error('Error in getTopTrendsData service:', error);
     throw error;
   }
 };
@@ -69,9 +69,9 @@ const getTopTrendsData = async (merchantId, filters) => {
  */
 const getBottomTrendsData = async (merchantId, filters) => {
   try {
-    return await Feedback.getBottomTrends(merchantId, filters);
+    return await getBottomTrends(merchantId, filters);
   } catch (error) {
-    logger.error('Error in getBottomTrendsData service:', error);
+    _error('Error in getBottomTrendsData service:', error);
     throw error;
   }
 };
@@ -92,11 +92,11 @@ const getDashboardOverview = async (merchantId, filters) => {
       topTrends,
       bottomTrends
     ] = await Promise.all([
-      Feedback.getTotalFeedbackCount(merchantId, filters),
-      Feedback.getCustomerRevisits(merchantId, filters),
-      Feedback.getSentimentAnalysis(merchantId, filters),
-      Feedback.getTopTrends(merchantId, filters),
-      Feedback.getBottomTrends(merchantId, filters)
+      getTotalFeedbackCount(merchantId, filters),
+      getCustomerRevisits(merchantId, filters),
+      getSentimentAnalysis(merchantId, filters),
+      getTopTrends(merchantId, filters),
+      getBottomTrends(merchantId, filters)
     ]);
     
     return {
@@ -107,12 +107,12 @@ const getDashboardOverview = async (merchantId, filters) => {
       bottomTrends
     };
   } catch (error) {
-    logger.error('Error in getDashboardOverview service:', error);
+    _error('Error in getDashboardOverview service:', error);
     throw error;
   }
 };
 
-module.exports = {
+export default {
   getTotalFeedbackData,
   getCustomerRevisitData,
   getSentimentData,

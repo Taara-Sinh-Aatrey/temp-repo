@@ -1,6 +1,6 @@
-const Merchant = require('../models/Merchant');
-const { generateToken } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import { getByEmail, create, getById, getSpocs, update } from '../models/Merchant';
+import { generateToken } from '../utils/helpers';
+import { error as _error } from '../utils/logger';
 
 /**
  * Register a new merchant
@@ -10,20 +10,20 @@ const logger = require('../utils/logger');
 const registerMerchant = async (merchantData) => {
   try {
     // Check if merchant with email already exists
-    const existingMerchant = await Merchant.getByEmail(merchantData.email);
+    const existingMerchant = await getByEmail(merchantData.email);
     if (existingMerchant) {
       throw new Error('Merchant with this email already exists');
     }
 
     // Create new merchant
-    const merchant = await Merchant.create(merchantData);
+    const merchant = await create(merchantData);
 
     // Generate JWT token
     const token = generateToken(merchant);
 
     return { merchant, token };
   } catch (error) {
-    logger.error('Error in registerMerchant service:', error);
+    _error('Error in registerMerchant service:', error);
     throw error;
   }
 };
@@ -35,7 +35,7 @@ const registerMerchant = async (merchantData) => {
  */
 const loginWithGoogle = async (user) => {
   try {
-    const merchant = await Merchant.getByEmail(user.email);
+    const merchant = await getByEmail(user.email);
     
     if (!merchant) {
       throw new Error('Merchant not found');
@@ -46,7 +46,7 @@ const loginWithGoogle = async (user) => {
 
     return { merchant, token };
   } catch (error) {
-    logger.error('Error in loginWithGoogle service:', error);
+    _error('Error in loginWithGoogle service:', error);
     throw error;
   }
 };
@@ -58,17 +58,17 @@ const loginWithGoogle = async (user) => {
  */
 const getMerchantProfile = async (merchantId) => {
   try {
-    const merchant = await Merchant.getById(merchantId);
+    const merchant = await getById(merchantId);
     
     if (!merchant) {
       throw new Error('Merchant not found');
     }
     
-    const spocs = await Merchant.getSpocs(merchantId);
+    const spocs = await getSpocs(merchantId);
     
     return { merchant, spocs };
   } catch (error) {
-    logger.error('Error in getMerchantProfile service:', error);
+    _error('Error in getMerchantProfile service:', error);
     throw error;
   }
 };
@@ -81,7 +81,7 @@ const getMerchantProfile = async (merchantId) => {
  */
 const updateMerchantProfile = async (merchantId, merchantData) => {
   try {
-    const merchant = await Merchant.update(merchantId, merchantData);
+    const merchant = await update(merchantId, merchantData);
     
     if (!merchant) {
       throw new Error('Merchant not found');
@@ -89,12 +89,12 @@ const updateMerchantProfile = async (merchantId, merchantData) => {
     
     return merchant;
   } catch (error) {
-    logger.error('Error in updateMerchantProfile service:', error);
+    _error('Error in updateMerchantProfile service:', error);
     throw error;
   }
 };
 
-module.exports = {
+export default {
   registerMerchant,
   loginWithGoogle,
   getMerchantProfile,

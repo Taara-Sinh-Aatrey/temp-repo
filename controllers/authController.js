@@ -1,6 +1,7 @@
-const Merchant = require('../models/Merchant');
-const { generateToken, formatError } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import Merchant from '../models/Merchant';
+import * as helpers from '../utils/helpers';
+const { generateToken, formatError } = helpers;
+import logger from '../utils/logger';
 
 /**
  * Register a new merchant
@@ -170,7 +171,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   signup,
   googleLogin,
   getProfile,

@@ -5,20 +5,20 @@
  * Requires: npm install knex-schema-inspector pdfkit fs-extra
  */
 require('dotenv').config();
-const fs = require('fs-extra');
-const path = require('path');
-const { SchemaInspector } = require('knex-schema-inspector');
-const PDFDocument = require('pdfkit');
-const logger = require('../utils/logger');
-const knex = require('knex');
-const config = require('../knexfile');
+import { createWriteStream } from 'fs-extra';
+import { join } from 'path';
+import { SchemaInspector } from 'knex-schema-inspector';
+import PDFDocument from 'pdfkit';
+import { error as _error, info } from '../utils/logger';
+import knex from 'knex';
+import config from '../knexfile';
 
 // Get environment from command line args or default to development
 const environment = process.argv[2] || process.env.NODE_ENV || 'development';
 const config = knexConfig[environment];
 
 if (!config) {
-  logger.error(`Environment "${environment}" not found in knexfile.js`);
+  _error(`Environment "${environment}" not found in knexfile.js`);
   process.exit(1);
 }
 
@@ -28,14 +28,14 @@ const inspector = SchemaInspector(db);
 
 async function generateSchemaPDF() {
   try {
-    logger.info(`Generating schema documentation for environment: ${environment}`);
+    info(`Generating schema documentation for environment: ${environment}`);
     
     // Get all tables
     const tables = await inspector.tables();
     
     // Create a new PDF document
     const doc = new PDFDocument({ margin: 50 });
-    const output = fs.createWriteStream(path.join(__dirname, '../schema-documentation.pdf'));
+    const output = createWriteStream(join(__dirname, '../schema-documentation.pdf'));
     doc.pipe(output);
     
     // Add title
@@ -161,12 +161,12 @@ async function generateSchemaPDF() {
     // Finalize the PDF
     doc.end();
     
-    logger.info(`Schema documentation generated: ${path.join(__dirname, '../schema-documentation.pdf')}`);
+    info(`Schema documentation generated: ${join(__dirname, '../schema-documentation.pdf')}`);
     
     // Close the database connection
     await db.destroy();
   } catch (error) {
-    logger.error('Error generating schema documentation:', error);
+    _error('Error generating schema documentation:', error);
     process.exit(1);
   }
 }

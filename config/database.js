@@ -1,6 +1,6 @@
-const knex = require('knex');
-const logger = require('../utils/logger');
-const knexConfig = require('../knexfile');
+import knex from 'knex';
+import { info, error as _error } from '../utils/logger';
+import knexConfig from '../knexfile';
 
 // Get current environment
 const environment = process.env.NODE_ENV || 'development';
@@ -12,15 +12,15 @@ const db = knex(knexConfig[environment]);
 const testConnection = async () => {
   try {
     await db.raw('SELECT 1');
-    logger.info(`Connected to ${environment} database`);
+    info(`Connected to ${environment} database`);
     return true;
   } catch (error) {
-    logger.error('Database connection error:', error);
+    _error('Database connection error:', error);
     return false;
   }
 };
 
-module.exports = {
+export default {
   db,
   testConnection
 };

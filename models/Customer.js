@@ -1,5 +1,5 @@
-const db = require('./db');
-const { v4: uuidv4 } = require('uuid');
+import db from './db';
+import { v4 as uuidv4 } from 'uuid';
 
 class Customer {
   /**
@@ -108,4 +108,4 @@ class Customer {
   }
 }
 
-module.exports = Customer;
+export default Customer;

@@ -1,7 +1,7 @@
-const qrcode = require('qrcode');
-const QRCode = require('../models/QRCode');
-const { encodeData } = require('../utils/helpers');
-const logger = require('../utils/logger');
+import { toDataURL } from 'qrcode';
+import { create, getByMerchantId, getById, deleteQrCode } from '../models/QRCode';
+import { encodeData } from '../utils/helpers';
+import { error as _error } from '../utils/logger';
 
 /**
  * Generate a QR code for a merchant
@@ -25,7 +25,7 @@ const generateQRCode = async (merchantId, labelName) => {
     const feedbackUrl = `${process.env.FRONTEND_URL || 'https://example.com'}/feedback?data=${encodedData}`;
 
     // Generate QR code as data URL
-    const qrCodeImage = await qrcode.toDataURL(feedbackUrl, {
+    const qrCodeImage = await toDataURL(feedbackUrl, {
       errorCorrectionLevel: 'H',
       margin: 1,
       scale: 8,
@@ -42,10 +42,10 @@ const generateQRCode = async (merchantId, labelName) => {
       qrCode: qrCodeImage
     };
 
-    const savedQRCode = await QRCode.create(qrCodeData);
+    const savedQRCode = await create(qrCodeData);
     return savedQRCode;
   } catch (error) {
-    logger.error('Error in generateQRCode service:', error);
+    _error('Error in generateQRCode service:', error);
     throw error;
   }
 };
@@ -57,9 +57,9 @@ const generateQRCode = async (merchantId, labelName) => {
  */
 const getQRCodes = async (merchantId) => {
   try {
-    return await QRCode.getByMerchantId(merchantId);
+    return await getByMerchantId(merchantId);
   } catch (error) {
-    logger.error('Error in getQRCodes service:', error);
+    _error('Error in getQRCodes service:', error);
     throw error;
   }
 };
@@ -72,7 +72,7 @@ const getQRCodes = async (merchantId) => {
  */
 const getQRCodeById = async (id, merchantId) => {
   try {
-    const qrCode = await QRCode.getById(id);
+    const qrCode = await getById(id);
     
     if (!qrCode) {
       return null;
@@ -85,7 +85,7 @@ const getQRCodeById = async (id, merchantId) => {
     
     return qrCode;
   } catch (error) {
-    logger.error('Error in getQRCodeById service:', error);
+    _error('Error in getQRCodeById service:', error);
     throw error;
   }
 };
@@ -98,14 +98,14 @@ const getQRCodeById = async (id, merchantId) => {
  */
 const deleteQRCode = async (id, merchantId) => {
   try {
-    return await QRCode.delete(id, merchantId);
+    return await deleteQrCode(id, merchantId);
   } catch (error) {
-    logger.error('Error in deleteQRCode service:', error);
+    _error('Error in deleteQRCode service:', error);
     throw error;
   }
 };
 
-module.exports = {
+export default {
   generateQRCode,
   getQRCodes,
   getQRCodeById,

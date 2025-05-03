@@ -1,11 +1,11 @@
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const Merchant = require('../models/Merchant');
-const Customer = require('../models/Customer');
-const logger = require('../utils/logger');
+import passport, { use } from 'passport';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+import Merchant from '../models/Merchant';
+import Customer from '../models/Customer';
+import logger from '../utils/logger';
 
 // Configure Google OAuth strategy for merchants
-passport.use('google-merchant',
+use('google-merchant',
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -37,7 +37,7 @@ passport.use('google-merchant',
 );
 
 // Configure Google OAuth strategy for customers
-passport.use('google-customer',
+use('google-customer',
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -74,4 +74,4 @@ passport.use('google-customer',
   })
 );
 
-module.exports = passport;
+export default passport;

@@ -1,13 +1,13 @@
-const AWS = require('aws-sdk');
-const logger = require('../utils/logger');
+import { config, S3 } from 'aws-sdk';
+import logger from '../utils/logger';
 
 // Configure AWS SDK
-AWS.config.update({
+config.update({
   region: process.env.AWS_REGION
 });
 
 // Create S3 instance
-const s3 = new AWS.S3({
+const s3 = new S3({
   region: process.env.AWS_REGION
 });
 
@@ -26,7 +26,7 @@ const initializeS3 = async () => {
   }
 };
 
-module.exports = {
+export default {
   s3,
   bucketName,
   initializeS3

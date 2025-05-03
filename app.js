@@ -1,31 +1,33 @@
 require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const passport = require('passport');
-const logger = require('./utils/logger');
-const { errorHandler } = require('./middleware/validation');
+import express, { json, urlencoded } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import { initialize } from 'passport';
+import logger from './utils/logger';
+import * as validations from './middleware/validation';
+const { errorHandler } = validations;
 
 // Import routes
-const authRoutes = require('./routes/auth');
-const qrCodeRoutes = require('./routes/qrCode');
-const dashboardRoutes = require('./routes/dashboard');
-const queryRoutes = require('./routes/query');
+import authRoutes from './routes/auth';
+import qrCodeRoutes from './routes/qrCode';
+import dashboardRoutes from './routes/dashboard';
+import queryRoutes from './routes/query';
 
 // Initialize Express app
 const app = express();
 
 // Configure passport for Google OAuth
-require('./config/passport');
+// Configure passport for Google OAuth
+require('./config/passport').default;
 
 // Apply middleware
 app.use(helmet());
 app.use(cors());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(json());
+app.use(urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: { write: message => logger.info(message.trim()) } }));
-app.use(passport.initialize());
+app.use(initialize());
 
 // Define routes
 app.use('/api/auth', authRoutes);
@@ -59,4 +61,4 @@ process.on('unhandledRejection', (err) => {
   // process.exit(1);
 });
 
-module.exports = app;
+export default app;

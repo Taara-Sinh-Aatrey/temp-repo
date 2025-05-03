@@ -1,10 +1,10 @@
-const express = require('express');
-const { body } = require('express-validator');
-const { processQuery } = require('../controllers/queryController');
-const { validateRequest } = require('../middleware/validation');
-const { authenticateJWT, verifyMerchant } = require('../middleware/auth');
+import { Router } from 'express';
+import { body } from 'express-validator';
+import { processQuery } from '../controllers/queryController';
+import { validateRequest } from '../middleware/validation';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth';
 
-const router = express.Router();
+const router = Router();
 
 // Apply authentication middleware
 router.use(authenticateJWT);
@@ -20,4 +20,4 @@ router.post('/', [
   validateRequest
 ], processQuery);
 
-module.exports = router;
+export default router;

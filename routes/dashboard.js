@@ -1,17 +1,10 @@
-const express = require('express');
-const { query } = require('express-validator');
-const { 
-  getTotalFeedbacks, 
-  getCustomerRevisits, 
-  getSentimentAnalysis, 
-  getTopTrends, 
-  getBottomTrends,
-  getDashboardOverview
-} = require('../controllers/dashboardController');
-const { validateRequest, parseDateRange } = require('../middleware/validation');
-const { authenticateJWT, verifyMerchant } = require('../middleware/auth');
+import { Router } from 'express';
+import { query } from 'express-validator';
+import { getTotalFeedbacks, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends, getDashboardOverview } from '../controllers/dashboardController';
+import { validateRequest, parseDateRange } from '../middleware/validation';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth';
 
-const router = express.Router();
+const router = Router();
 
 // Apply authentication middleware to all routes
 router.use(authenticateJWT);
@@ -80,4 +73,4 @@ router.get('/top-trends', getTopTrends);
  */
 router.get('/bottom-trends', getBottomTrends);
 
-module.exports = router;
+export default router;
