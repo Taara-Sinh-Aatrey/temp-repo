@@ -1,4 +1,4 @@
-import db, { fn } from './db';
+import db from './db.js';
 import { v4 as uuidv4 } from 'uuid';
 
 class Merchant {
@@ -77,7 +77,7 @@ class Merchant {
         location_lat: merchantData.locationLat,
         location_lng: merchantData.locationLng,
         google_place_id: merchantData.googlePlaceId,
-        updated_at: fn.now()
+        updated_at: db.fn.now()
       })
       .returning('*');
     

@@ -1,4 +1,4 @@
-import db, { fn } from './db';
+import db from './db.js';
 import { v4 as uuidv4 } from 'uuid';
 
 class QRCode {
@@ -65,7 +65,7 @@ class QRCode {
         merchantId 
       })
       .update({
-        deletedAt: fn.now()
+        deletedAt: db.fn.now()
       });
     
     return result > 0;

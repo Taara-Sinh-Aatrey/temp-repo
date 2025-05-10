@@ -1,7 +1,8 @@
-import { post } from 'axios';
-import * as helpers from '../utils/helpers';
+import pkg from 'axios';
+const { post } = pkg;
+import * as helpers from '../utils/helpers.js';
 const { formatError } = helpers;
-import logger from '../utils/logger';
+import logger from '../utils/logger.js';
 
 /**
  * Forward query to external microservice
@@ -63,6 +64,6 @@ const processQuery = async (req, res) => {
   }
 };
 
-export default {
+export {
   processQuery
 };

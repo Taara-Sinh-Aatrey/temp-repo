@@ -1,4 +1,5 @@
-import { sign } from 'jsonwebtoken';
+import pkg from 'jsonwebtoken';
+const { sign } = pkg;
 
 /**
  * Generate JWT token for a merchant
@@ -95,7 +96,7 @@ const decodeData = (str) => {
   }
 };
 
-export default {
+export {
   generateToken,
   formatError,
   parseDateRange,

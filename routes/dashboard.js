@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { query } from 'express-validator';
-import { getTotalFeedbacks, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends, getDashboardOverview } from '../controllers/dashboardController';
-import { validateRequest, parseDateRange } from '../middleware/validation';
-import { authenticateJWT, verifyMerchant } from '../middleware/auth';
+import { getTotalFeedbacks, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends, getDashboardOverview } from '../controllers/dashboardController.js';
+import { validateRequest, parseDateRange } from '../middleware/validation.js';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth.js';
 
 const router = Router();
 

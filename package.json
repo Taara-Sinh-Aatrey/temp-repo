@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Merchant API for feedback management system",
     "main": "app.js",
+    "type": "module",
     "scripts": {
       "start": "node app.js",
       "dev": "nodemon app.js",

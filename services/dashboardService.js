@@ -1,5 +1,5 @@
-import { getTotalFeedbackCount, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends } from '../models/Feedback';
-import { error as _error } from '../utils/logger';
+import { getTotalFeedbackCount, getCustomerRevisits, getSentimentAnalysis, getTopTrends, getBottomTrends } from '../models/Feedback.js';
+import { error as _error } from '../utils/logger.js';
 
 /**
  * Get total feedback data for dashboard

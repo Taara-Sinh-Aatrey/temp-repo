@@ -1,6 +1,7 @@
-import { verify } from 'jsonwebtoken';
-import Merchant from '../models/Merchant';
-import logger from '../utils/logger';
+import pkg from 'jsonwebtoken';
+const { verify } = pkg;
+import Merchant from '../models/Merchant.js';
+import logger from '../utils/logger.js';
 
 /**
  * Middleware to authenticate JWT token
@@ -8,7 +9,7 @@ import logger from '../utils/logger';
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
  */
-const authenticateJWT = (req, res, next) => {
+export const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -37,7 +38,7 @@ const authenticateJWT = (req, res, next) => {
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
  */
-const verifyMerchant = async (req, res, next) => {
+export const verifyMerchant = async (req, res, next) => {
   try {
     const merchant = await Merchant.getById(req.merchant.id);
     
@@ -55,9 +56,4 @@ const verifyMerchant = async (req, res, next) => {
     logger.error('Merchant verification failed:', error);
     res.status(500).json({ error: 'Failed to verify merchant' });
   }
-};
-
-export default {
-  authenticateJWT,
-  verifyMerchant
 };

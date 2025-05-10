@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { processQuery } from '../controllers/queryController';
-import { validateRequest } from '../middleware/validation';
-import { authenticateJWT, verifyMerchant } from '../middleware/auth';
+import { processQuery } from '../controllers/queryController.js';
+import { validateRequest } from '../middleware/validation.js';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth.js';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
-import { getByEmail, create, getById, getSpocs, update } from '../models/Merchant';
-import { generateToken } from '../utils/helpers';
-import { error as _error } from '../utils/logger';
+import { getByEmail, create, getById, getSpocs, update } from '../models/Merchant.js';
+import { generateToken } from '../utils/helpers.js';
+import { error as _error } from '../utils/logger.js';
 
 /**
  * Register a new merchant

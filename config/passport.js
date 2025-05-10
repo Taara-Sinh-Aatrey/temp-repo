@@ -1,11 +1,11 @@
-import passport, { use } from 'passport';
+import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-import Merchant from '../models/Merchant';
-import Customer from '../models/Customer';
-import logger from '../utils/logger';
+import Merchant from '../models/Merchant.js';
+import Customer from '../models/Customer.js';
+import logger from '../utils/logger.js';
 
 // Configure Google OAuth strategy for merchants
-use('google-merchant',
+passport.use('google-merchant',
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -37,7 +37,7 @@ use('google-merchant',
 );
 
 // Configure Google OAuth strategy for customers
-use('google-customer',
+passport.use('google-customer',
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,

@@ -1,5 +1,5 @@
 import { post } from 'axios';
-import { error as _error } from '../utils/logger';
+import { error as _error } from '../utils/logger.js';
 
 /**
  * Process a natural language query using external microservice

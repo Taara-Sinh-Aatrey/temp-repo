@@ -1,8 +1,8 @@
 import { Router } from 'express';
 import { body, param } from 'express-validator';
-import { generateQRCode, getQRCodes, getQRCodeById, deleteQRCode } from '../controllers/qrCodeController';
-import { validateRequest } from '../middleware/validation';
-import { authenticateJWT, verifyMerchant } from '../middleware/auth';
+import { generateQRCode, getQRCodes, getQRCodeById, deleteQRCode } from '../controllers/qrCodeController.js';
+import { validateRequest } from '../middleware/validation.js';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth.js';
 
 const router = Router();
 

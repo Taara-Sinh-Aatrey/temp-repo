@@ -1,5 +1,6 @@
-import { validationResult } from 'express-validator';
-import logger from '../utils/logger';
+import pkg from 'express-validator';
+const { validationResult } = pkg;
+import logger from '../utils/logger.js';
 
 /**
  * Middleware to validate request data
@@ -7,7 +8,7 @@ import logger from '../utils/logger';
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
  */
-const validateRequest = (req, res, next) => {
+export const validateRequest = (req, res, next) => {
   const errors = validationResult(req);
   
   if (!errors.isEmpty()) {
@@ -27,7 +28,7 @@ const validateRequest = (req, res, next) => {
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
  */
-const errorHandler = (err, req, res, next) => {
+export const errorHandler = (err, req, res, next) => {
   logger.error('Error:', err);
   
   // Handle specific errors
@@ -47,7 +48,7 @@ const errorHandler = (err, req, res, next) => {
  * @param {Object} res - Express response object
  * @param {Function} next - Express next function
  */
-const parseDateRange = (req, res, next) => {
+export const parseDateRange = (req, res, next) => {
   const { timeRange } = req.query;
   const now = new Date();
   
@@ -78,10 +79,4 @@ const parseDateRange = (req, res, next) => {
   };
   
   next();
-};
-
-export default {
-  validateRequest,
-  errorHandler,
-  parseDateRange
 };

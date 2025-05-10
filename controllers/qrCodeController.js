@@ -1,15 +1,15 @@
-import QRCode from '../models/QRCode';
+import QRCode from '../models/QRCode.js';
 import { toDataURL } from 'qrcode';
-import * as helpers from '../utils/helpers';
+import * as helpers from '../utils/helpers.js';
 const { formatError, encodeData } = helpers;
-import logger from '../utils/logger';
+import logger from '../utils/logger.js';
 
 /**
  * Generate a QR code for a merchant
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const generateQRCode = async (req, res) => {
+export const generateQRCode = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
     const { labelName } = req.body;
@@ -63,7 +63,7 @@ const generateQRCode = async (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getQRCodes = async (req, res) => {
+export const getQRCodes = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
 
@@ -85,7 +85,7 @@ const getQRCodes = async (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getQRCodeById = async (req, res) => {
+export const getQRCodeById = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
     const { id } = req.params;
@@ -117,7 +117,7 @@ const getQRCodeById = async (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const deleteQRCode = async (req, res) => {
+export const deleteQRCode = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
     const { id } = req.params;
@@ -137,11 +137,4 @@ const deleteQRCode = async (req, res) => {
     logger.error('Error deleting QR code:', error);
     res.status(500).json(formatError(error));
   }
-};
-
-export default {
-  generateQRCode,
-  getQRCodes,
-  getQRCodeById,
-  deleteQRCode
 };

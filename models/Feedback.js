@@ -1,4 +1,4 @@
-import db, { raw } from './db';
+import db from './db.js';
 import { v4 as uuidv4 } from 'uuid';
 
 class Feedback {
@@ -131,14 +131,14 @@ class Feedback {
     }
     
     const positiveResult = await query.clone()
-      .select(raw(`to_char(created_at, '${timeFormat}') as time_period`))
+      .select(db.raw(`to_char(created_at, '${timeFormat}') as time_period`))
       .count('id as count')
       .where('score', '>=', 0)
       .groupBy('time_period')
       .orderBy('time_period');
     
     const negativeResult = await query.clone()
-      .select(raw(`to_char(created_at, '${timeFormat}') as time_period`))
+      .select(db.raw(`to_char(created_at, '${timeFormat}') as time_period`))
       .count('id as count')
       .where('score', '<', 0)
       .groupBy('time_period')
@@ -208,7 +208,7 @@ class Feedback {
     
     // Get time series data
     const visitsByTime = await query
-      .select(raw(`to_char(created_at, '${timeFormat}') as time_period`))
+      .select(db.raw(`to_char(created_at, '${timeFormat}') as time_period`))
       .count('distinct customer_id as count')
       .groupBy('time_period')
       .orderBy('time_period');
@@ -271,7 +271,7 @@ class Feedback {
     
     // Get time series data for sentiment scores
     const sentimentByTime = await query
-      .select(raw(`to_char(created_at, '${timeFormat}') as time_period`))
+      .select(db.raw(`to_char(created_at, '${timeFormat}') as time_period`))
       .avg('score as avg_score')
       .groupBy('time_period')
       .orderBy('time_period');
@@ -279,17 +279,17 @@ class Feedback {
     // Get overall sentiment stats
     const sentimentStats = await query.clone()
       .select(
-        raw('COUNT(CASE WHEN score >= 0 THEN 1 END) as positive_count'),
-        raw('COUNT(CASE WHEN score < 0 THEN 1 END) as negative_count'),
-        raw('AVG(score) as avg_score')
+        db.raw('COUNT(CASE WHEN score >= 0 THEN 1 END) as positive_count'),
+        db.raw('COUNT(CASE WHEN score < 0 THEN 1 END) as negative_count'),
+        db.raw('AVG(score) as avg_score')
       )
       .first();
     
     // Get sentiment distribution (1-5 scale)
     const sentimentDistribution = await query.clone()
       .select(
-        raw('CASE WHEN score BETWEEN -1 AND -0.6 THEN 1 WHEN score BETWEEN -0.6 AND -0.2 THEN 2 WHEN score BETWEEN -0.2 AND 0.2 THEN 3 WHEN score BETWEEN 0.2 AND 0.6 THEN 4 WHEN score BETWEEN 0.6 AND 1 THEN 5 END as rating'),
-        raw('COUNT(*) as count')
+        db.raw('CASE WHEN score BETWEEN -1 AND -0.6 THEN 1 WHEN score BETWEEN -0.6 AND -0.2 THEN 2 WHEN score BETWEEN -0.2 AND 0.2 THEN 3 WHEN score BETWEEN 0.2 AND 0.6 THEN 4 WHEN score BETWEEN 0.6 AND 1 THEN 5 END as rating'),
+        db.raw('COUNT(*) as count')
       )
       .whereNotNull('score')
       .groupBy('rating')
@@ -422,3 +422,5 @@ class Feedback {
     };
   }
 }
+
+export default Feedback;

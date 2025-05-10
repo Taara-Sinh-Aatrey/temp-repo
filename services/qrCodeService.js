@@ -1,7 +1,7 @@
 import { toDataURL } from 'qrcode';
-import { create, getByMerchantId, getById, deleteQrCode } from '../models/QRCode';
-import { encodeData } from '../utils/helpers';
-import { error as _error } from '../utils/logger';
+import { create, getByMerchantId, getById, deleteQrCode } from '../models/QRCode.js';
+import { encodeData } from '../utils/helpers.js';
+import { error as _error } from '../utils/logger.js';
 
 /**
  * Generate a QR code for a merchant

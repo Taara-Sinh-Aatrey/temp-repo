@@ -4,14 +4,14 @@
  * Script to generate PDF documentation of the database schema
  * Requires: npm install knex-schema-inspector pdfkit fs-extra
  */
-require('dotenv').config();
+import 'dotenv/config';
 import { createWriteStream } from 'fs-extra';
 import { join } from 'path';
 import { SchemaInspector } from 'knex-schema-inspector';
 import PDFDocument from 'pdfkit';
-import { error as _error, info } from '../utils/logger';
+import { error as _error, info } from '../utils/logger.js';
 import knex from 'knex';
-import config from '../knexfile';
+import config from '../knexfile.js';
 
 // Get environment from command line args or default to development
 const environment = process.argv[2] || process.env.NODE_ENV || 'development';

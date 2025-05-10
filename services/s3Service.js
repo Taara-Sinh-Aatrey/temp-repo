@@ -1,5 +1,5 @@
-import { s3, bucketName } from '../config/s3';
-import { info, error as _error } from '../utils/logger';
+import { s3, bucketName } from '../config/s3.js';
+import { info, error as _error } from '../utils/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
 /**

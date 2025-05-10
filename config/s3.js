@@ -1,5 +1,5 @@
 import { config, S3 } from 'aws-sdk';
-import logger from '../utils/logger';
+import logger from '../utils/logger.js';
 
 // Configure AWS SDK
 config.update({

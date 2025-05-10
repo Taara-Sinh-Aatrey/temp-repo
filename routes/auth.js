@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { authenticate } from 'passport';
-import { signup, googleLogin, getProfile, updateProfile } from '../controllers/authController';
-import { validateRequest } from '../middleware/validation';
-import { authenticateJWT, verifyMerchant } from '../middleware/auth';
+import passport from 'passport';
+import { signup, googleLogin, getProfile, updateProfile } from '../controllers/authController.js';
+import { validateRequest } from '../middleware/validation.js';
+import { authenticateJWT, verifyMerchant } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -30,7 +30,7 @@ router.post('/signup', [
  * @desc Initiate Google OAuth flow for merchants
  * @access Public
  */
-router.get('/google', authenticate('google-merchant', {
+router.get('/google', passport.authenticate('google-merchant', {
   scope: ['profile', 'email']
 }));
 
@@ -40,7 +40,7 @@ router.get('/google', authenticate('google-merchant', {
  * @access Public
  */
 router.get('/google/callback', 
-  authenticate('google-merchant', { 
+  passport.authenticate('google-merchant', { 
     session: false,
     failureRedirect: '/login?error=authentication_failed'
   }),

@@ -1,9 +1,9 @@
-require('dotenv').config();
+import 'dotenv/config';
 
 /**
  * Database configuration - single source of truth
  */
-export const development = {
+const development = {
   client: 'pg',
   connection: {
     host: process.env.DB_HOST || 'localhost',
@@ -23,7 +23,8 @@ export const development = {
   },
   debug: process.env.DB_DEBUG === 'true'
 };
-export const production = {
+
+const production = {
   client: 'pg',
   connection: {
     host: process.env.DB_HOST,
@@ -43,3 +44,5 @@ export const production = {
   },
   debug: false
 };
+
+export default { development, production };

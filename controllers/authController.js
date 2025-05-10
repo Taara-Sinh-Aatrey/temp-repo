@@ -1,14 +1,13 @@
-import Merchant from '../models/Merchant';
-import * as helpers from '../utils/helpers';
-const { generateToken, formatError } = helpers;
-import logger from '../utils/logger';
+import Merchant from '../models/Merchant.js';
+import { generateToken, formatError } from '../utils/helpers.js';
+import logger from '../utils/logger.js';
 
 /**
  * Register a new merchant
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const signup = async (req, res) => {
+export const signup = async (req, res) => {
   try {
     const {
       firstName,
@@ -71,7 +70,7 @@ const signup = async (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const googleLogin = (req, res) => {
+export const googleLogin = (req, res) => {
   try {
     // Passport.js has already authenticated the user at this point
     const merchant = req.user;
@@ -96,7 +95,7 @@ const googleLogin = (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
     
@@ -126,7 +125,7 @@ const getProfile = async (req, res) => {
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   try {
     const merchantId = req.merchant.id;
     const {
@@ -169,11 +168,4 @@ const updateProfile = async (req, res) => {
     logger.error('Error updating merchant profile:', error);
     res.status(500).json(formatError(error));
   }
-};
-
-export default {
-  signup,
-  googleLogin,
-  getProfile,
-  updateProfile
 };
